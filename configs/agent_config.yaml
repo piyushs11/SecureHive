@@ -1,0 +1,26 @@
+agents:
+  planner:
+    port: 8001
+    role: "Decomposes user requests into subtasks"
+    epsilon: 1.0          # DP privacy budget
+    heartbeat_interval: 10.0   # seconds
+
+  retriever:
+    port: 8002
+    role: "Fetches relevant knowledge from data sources"
+    epsilon: 1.0
+    heartbeat_interval: 10.0
+
+  policy_checker:
+    port: 8003
+    role: "Validates agent actions against security policy"
+    epsilon: 1.0
+    heartbeat_interval: 10.0
+
+  executor:
+    port: 8004
+    role: "Executes finalized instructions on external systems"
+    epsilon: 1.0
+    heartbeat_interval: 10.0
+
+embedding_model: "all-MiniLM-L6-v2"
