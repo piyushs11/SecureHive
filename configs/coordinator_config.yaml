@@ -3,12 +3,12 @@ coordinator:
   host: "0.0.0.0"
 
 trust:
-  ema_alpha: 0.9          # decay factor — 0.9 means recent beats dominate
+  ema_alpha: 0.9
   quarantine_threshold: 0.4
   suspicious_threshold: 0.7
-  normalization_ceiling: 10.0  # max divergence before full penalty
+  normalization_ceiling: 100.0   
 
 detection:
-  mahalanobis_alert_threshold: 3.5
-  window_size: 50          # rolling history per agent
-  min_samples_for_detection: 10  # baseline warmup
+  warmup_samples: 20
+  alert_z_score: 3.0             
+  window_size: 50

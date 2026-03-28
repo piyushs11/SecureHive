@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from src.detection.semantic_divergence import SemanticDivergenceDetector
 
 
-def _fill_baseline(detector: SemanticDivergenceDetector, agent_id: str, n: int = 30):
+def _fill_baseline(detector: SemanticDivergenceDetector, agent_id: str, n: int = 25):
     base = np.ones(384) * 0.5
     for _ in range(n):
         detector.score_embedding(agent_id, base + np.random.randn(384) * 0.01)
@@ -22,8 +22,8 @@ def test_warmup_returns_zero_divergence():
 
 def test_normal_behavior_not_flagged():
     np.random.seed(42)
-    det = SemanticDivergenceDetector(alert_threshold=100.0)
-    _fill_baseline(det, "agent_b", n=30)
+    det = SemanticDivergenceDetector(warmup_samples=20, alert_z_score=3.0)
+    _fill_baseline(det, "agent_b", n=25)
 
     normal_emb = np.ones(384) * 0.5 + np.random.randn(384) * 0.01
     result = det.score_embedding("agent_b", normal_emb)
@@ -32,33 +32,43 @@ def test_normal_behavior_not_flagged():
 
 def test_attack_embedding_flagged():
     np.random.seed(0)
-    det = SemanticDivergenceDetector(alert_threshold=3.5)
-    _fill_baseline(det, "agent_c", n=30)
+    det = SemanticDivergenceDetector(warmup_samples=20, alert_z_score=3.0)
+    _fill_baseline(det, "agent_c", n=25)
 
     attack_emb = np.ones(384) * -50.0
     result = det.score_embedding("agent_c", attack_emb)
     assert result["alert"] is True
-    assert result["divergence"] > 3.5
+
+
+def test_adaptive_threshold_set_after_warmup():
+    np.random.seed(1)
+    det = SemanticDivergenceDetector(warmup_samples=20)
+    _fill_baseline(det, "agent_d", n=25)
+
+    threshold = det.get_threshold("agent_d")
+    assert threshold != float("inf")
+    assert threshold > 0
 
 
 def test_separate_baselines_per_agent():
-    np.random.seed(1)
-    det = SemanticDivergenceDetector()
+    np.random.seed(2)
+    det = SemanticDivergenceDetector(warmup_samples=20)
 
-    _fill_baseline(det, "agent_d", n=30)
+    _fill_baseline(det, "agent_e", n=25)
 
-    base_e = np.ones(384) * -0.5
-    for _ in range(30):
-        det.score_embedding("agent_e", base_e + np.random.randn(384) * 0.01)
+    base_f = np.ones(384) * -0.5
+    for _ in range(25):
+        det.score_embedding("agent_f", base_f + np.random.randn(384) * 0.01)
 
-    result_d = det.score_embedding("agent_d", np.ones(384) * 0.5)
     result_e = det.score_embedding("agent_e", np.ones(384) * 0.5)
-    assert result_d["divergence"] < result_e["divergence"]
+    result_f = det.score_embedding("agent_f", np.ones(384) * 0.5)
+    assert result_e["divergence"] < result_f["divergence"]
 
 
 def test_reset_clears_baseline():
     det = SemanticDivergenceDetector()
-    _fill_baseline(det, "agent_f", n=20)
-    assert det.baseline_size("agent_f") > 0
-    det.reset_agent("agent_f")
-    assert det.baseline_size("agent_f") == 0
+    _fill_baseline(det, "agent_g", n=25)
+    assert det.baseline_size("agent_g") > 0
+    det.reset_agent("agent_g")
+    assert det.baseline_size("agent_g") == 0
+    assert det.get_threshold("agent_g") == float("inf")

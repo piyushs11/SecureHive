@@ -22,11 +22,13 @@ trust_engine = TrustEngine(
     alpha=0.9,
     quarantine_threshold=0.4,
     suspicious_threshold=0.7,
-    normalization_ceiling=10.0,
+    normalization_ceiling=100.0,   
 )
 detector = SemanticDivergenceDetector(
     window_size=50,
-    alert_threshold=3.5,
+    alert_threshold=None,    
+    warmup_samples=20,
+    alert_z_score=3.0,
 )
 
 class TelemetryEnvelope(BaseModel):
