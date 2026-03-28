@@ -6,7 +6,6 @@ from src.detection.llm_judge import judge_agent
 
 
 def _mock_ollama_response(content: str):
-    """Create a mock httpx response that returns the given content."""
     mock_resp = MagicMock()
     mock_resp.raise_for_status = MagicMock()
     mock_resp.json.return_value = {"message": {"content": content}}

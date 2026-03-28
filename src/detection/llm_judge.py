@@ -30,12 +30,14 @@ Flag as SUSPICIOUS or COMPROMISED if you see:
 async def judge_agent(
     role: str,
     behavioral_summary: str,
-    ollama_url: str = "",
+    ollama_url: str | None = None,
     model: str = "llama3.2",
 ) -> dict:
-
-    if ollama_url is None:
-        ollama_url = os.getenv("OLLAMA_URL", "http://localhost:11434")
+    resolved_url: str = (
+        ollama_url
+        if ollama_url is not None
+        else os.getenv("OLLAMA_URL", "http://localhost:11434")
+    )
 
     user_message = (
         f"ROLE: {role}\n\n"
@@ -54,7 +56,7 @@ async def judge_agent(
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
             resp = await client.post(
-                f"{ollama_url}/api/chat",
+                f"{resolved_url}/api/chat",   # <-- resolved_url, not ollama_url
                 json=request_body,
             )
             resp.raise_for_status()
