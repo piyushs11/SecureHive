@@ -1,0 +1,9 @@
+{
+    "include": [
+        "src",
+        "tests"
+    ],
+    "pythonPath": "./securehive_env/bin/python3",
+    "venvPath": ".",
+    "venv": "securehive_env"
+}
