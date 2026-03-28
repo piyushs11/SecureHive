@@ -25,16 +25,16 @@ class BaseAgent:
         self,
         agent_id: str,
         role: str,
-        coordinator_url: str = None,
+        coordinator_url: str | None = None,
         keys_dir: str = "./keys",
         epsilon: float = 1.0,
         heartbeat_interval: float = 10.0,
     ):
         self.agent_id = agent_id
         self.role = role
-        self.coordinator_url = coordinator_url or os.getenv(
+        self.coordinator_url = coordinator_url if coordinator_url is not None else os.getenv(
             "COORDINATOR_URL", "http://localhost:8000"
-        )
+    )
         self.epsilon = epsilon
         self.heartbeat_interval = heartbeat_interval
 
@@ -89,7 +89,8 @@ class BaseAgent:
     async def send_heartbeat(self) -> dict:
         summary = self._build_behavioral_summary()
 
-        raw_embedding: np.ndarray = self.encoder.encode(summary)
+        raw_embedding: np.ndarray = np.array(self.encoder.encode(summary), dtype=np.float32)
+
 
         protected_emb: np.ndarray = gaussian_mechanism(
             raw_embedding, epsilon=self.epsilon
