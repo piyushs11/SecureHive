@@ -11,8 +11,12 @@ from sentence_transformers import SentenceTransformer
 from src.crypto.utils import aes_encrypt, sign_payload, load_private_key
 from src.privacy.dp_embeddings import gaussian_mechanism
 
-SHARED_AES_KEY = bytes.fromhex(os.environ["SHARED_AES_KEY"])
-
+_key_hex = os.environ.get("SHARED_AES_KEY", "")
+if not _key_hex:
+    import warnings
+    warnings.warn("SHARED_AES_KEY not set — using test default. Never do this in production.")
+    _key_hex = "a" * 64
+SHARED_AES_KEY = bytes.fromhex(_key_hex)
 
 class TaskRequest(BaseModel):
     instruction: str
