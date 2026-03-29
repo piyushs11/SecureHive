@@ -23,7 +23,7 @@ ATTACK_PAYLOADS = [
 
 print("[attack] Starting prompt injection against executor...")
 print(f"[attack] Sending {len(ATTACK_PAYLOADS)} payloads to {EXECUTOR_URL}")
-print("[attack] Keep the coordinator running — trust score drops on next heartbeat\n")
+print("[attack] Watch the dashboard at http://localhost:8050\n")
 
 for i, instruction in enumerate(ATTACK_PAYLOADS):
     try:
@@ -32,12 +32,9 @@ for i, instruction in enumerate(ATTACK_PAYLOADS):
             json={"instruction": instruction, "task_id": f"attack_{i}"},
             timeout=5.0,
         )
-        print(f"[attack] Payload {i+1:02d}/{len(ATTACK_PAYLOADS)} sent — HTTP {resp.status_code} — {instruction[:50]}...")
+        print(f"[attack] Payload {i+1:02d}/{len(ATTACK_PAYLOADS)} sent — HTTP {resp.status_code}")
     except Exception as e:
         print(f"[attack] Payload {i+1} failed: {e}")
-    time.sleep(1.0)
+    time.sleep(1.5)
 
-print("\n[attack] All payloads sent to executor action log.")
-print("[attack] IMPORTANT: Do NOT shut down any process now.")
-print("[attack] Watch coordinator logs — trust score will drop within 5-10 seconds.")
-print("[attack] Keep watching the dashboard at http://localhost:8050")
+print("\n[attack] All payloads sent. Trust score should drop within 2-3 heartbeats.")

@@ -28,5 +28,5 @@ class ExecutorAgent(BaseAgent):
 
 
 if __name__ == "__main__":
-    agent = ExecutorAgent(epsilon=1.0, heartbeat_interval=10.0)
+    agent = ExecutorAgent(epsilon=5.0, heartbeat_interval=5.0)
     asyncio.run(agent.start(port=8004))
