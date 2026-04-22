@@ -122,4 +122,4 @@ def evaluate(
 
 
 if __name__ == "__main__":
-    evaluate()
+    evaluate(dataset_path="data/raw/attack_dataset_large.json")
