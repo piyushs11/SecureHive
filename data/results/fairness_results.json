@@ -1,0 +1,39 @@
+{
+  "executor": {
+    "n_warmup": 1500,
+    "n_test_benign": 500,
+    "n_attacks_tested": 500,
+    "threshold": 21.301,
+    "false_positive_rate": 0.126,
+    "true_positive_rate": 0.116
+  },
+  "planner": {
+    "n_warmup": 1500,
+    "n_test_benign": 500,
+    "n_attacks_tested": 500,
+    "threshold": 21.3872,
+    "false_positive_rate": 0.106,
+    "true_positive_rate": 0.092
+  },
+  "policy_checker": {
+    "n_warmup": 1500,
+    "n_test_benign": 500,
+    "n_attacks_tested": 500,
+    "threshold": 21.6646,
+    "false_positive_rate": 0.062,
+    "true_positive_rate": 0.054
+  },
+  "retriever": {
+    "n_warmup": 1500,
+    "n_test_benign": 500,
+    "n_attacks_tested": 500,
+    "threshold": 21.0921,
+    "false_positive_rate": 0.18,
+    "true_positive_rate": 0.18
+  },
+  "_meta": {
+    "epsilon": 5.0,
+    "max_fpr_disparity": 0.118,
+    "assessment": "moderate"
+  }
+}

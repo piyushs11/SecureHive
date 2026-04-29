@@ -1,0 +1,105 @@
+{
+  "semantic_divergence": {
+    "dataset_size": 10000,
+    "0.1": {
+      "precision_attack": 0.5134,
+      "recall_attack": 0.086,
+      "f1_attack": 0.1473,
+      "precision_benign": 0.5012,
+      "recall_benign": 0.9185,
+      "f1_benign": 0.6485,
+      "auroc": 0.5033,
+      "confusion_matrix": [
+        [
+          1837,
+          163
+        ],
+        [
+          1828,
+          172
+        ]
+      ]
+    },
+    "0.5": {
+      "precision_attack": 0.522,
+      "recall_attack": 0.1305,
+      "f1_attack": 0.2088,
+      "precision_benign": 0.5031,
+      "recall_benign": 0.8805,
+      "f1_benign": 0.6404,
+      "auroc": 0.501,
+      "confusion_matrix": [
+        [
+          1761,
+          239
+        ],
+        [
+          1739,
+          261
+        ]
+      ]
+    },
+    "1.0": {
+      "precision_attack": 0.4727,
+      "recall_attack": 0.065,
+      "f1_attack": 0.1143,
+      "precision_benign": 0.498,
+      "recall_benign": 0.9275,
+      "f1_benign": 0.648,
+      "auroc": 0.5011,
+      "confusion_matrix": [
+        [
+          1855,
+          145
+        ],
+        [
+          1870,
+          130
+        ]
+      ]
+    },
+    "5.0": {
+      "precision_attack": 0.5077,
+      "recall_attack": 0.116,
+      "f1_attack": 0.1888,
+      "precision_benign": 0.501,
+      "recall_benign": 0.8875,
+      "f1_benign": 0.6404,
+      "auroc": 0.5008,
+      "confusion_matrix": [
+        [
+          1775,
+          225
+        ],
+        [
+          1768,
+          232
+        ]
+      ]
+    },
+    "inf": {
+      "precision_attack": 1.0,
+      "recall_attack": 0.0145,
+      "f1_attack": 0.0286,
+      "precision_benign": 0.5037,
+      "recall_benign": 1.0,
+      "f1_benign": 0.6699,
+      "auroc": 0.5197,
+      "confusion_matrix": [
+        [
+          2000,
+          0
+        ],
+        [
+          1971,
+          29
+        ]
+      ]
+    }
+  },
+  "llm_judge": {
+    "n_samples": 100,
+    "auroc": 1.0
+  },
+  "finding": "Divergence requires accumulation; Judge works per-episode. Complementary."
+}

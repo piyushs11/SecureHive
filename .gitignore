@@ -14,7 +14,7 @@ securehive_env/
 # Data (too large for git — use a shared drive instead)
 data/raw/
 data/processed/
-data/results/
+# data/results/
 
 # OS files
 .DS_Store           # Mac
